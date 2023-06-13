@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -88,24 +89,31 @@ public class LockedMeApp {
 		displayOutput("Welcome to Company Lockers Pvt. Ltd.");
 		displayOutput("Created by\nSaranya Govindaraj");
 		loop: while (true) {
-			System.out.println(
-					"1.View File list\n2.File Operation\n3.Exit\n");
-			System.out.println("Enter your choice\n");
-			int choice = sc.nextInt();
-			switch (choice) {
-			case 1:
-				fileListAndCount();
-				break;
-			case 2:
-				fileOperation();
-				break;
-			case 3:
-				System.out.println("Thank you visit again.\n");
-				break loop;
-			default:
-				System.out.println("Invalid option\n");
+			
+			try {
+				System.out.println(
+						"1.View File list\n2.File Operation\n3.Exit\n");
+				System.out.println("Enter your choice\n");
+				int choice = sc.nextInt();
+				switch (choice) {
+				case 1:
+					fileListAndCount();
+					break;
+				case 2:
+					fileOperation();
+					break;
+				case 3:
+					System.out.println("Thank you visit again.\n");
+					break loop;
+				default:
+					System.out.println("Invalid option\n");
 
+				}
+			}catch(InputMismatchException e) {
+				 sc.nextLine();
+                 System.out.println("You must enter an interger. Try again.");
 			}
+			
 
 		}
 		sc.close();
@@ -114,25 +122,32 @@ public class LockedMeApp {
 	public static void fileOperation() {
 		
 		operation : while(true) {
-			System.out.println(
-					"Manipulation of files.\n1.Create a file\n2.Delete a file\n3.Search a file\n4.Exit\n");
-			System.out.println("Enter your choice\n");
-			int option = sc.nextInt();
-			switch(option) {
-			case 1:
-				createAFile();
-				break;
-			case 2:
-				deleteAFile();
-				break;
-			case 3:
-				searchAFile();
-				break;
-			case 4:
-				break operation;
-				default:
-				  System.out.println("Invalid option");
+			
+			try {
+				System.out.println(
+						"Manipulation of files.\n1.Create a file\n2.Delete a file\n3.Search a file\n4.Exit\n");
+				System.out.println("Enter your choice\n");
+				int option = sc.nextInt();
+				switch(option) {
+				case 1:
+					createAFile();
+					break;
+				case 2:
+					deleteAFile();
+					break;
+				case 3:
+					searchAFile();
+					break;
+				case 4:
+					break operation;
+					default:
+					  System.out.println("Invalid option");
+				}
+			}catch(InputMismatchException e) {
+				 sc.nextLine();
+                 System.out.println("You must enter an interger. Try again.");
 			}
+			
 		}
 		
 	}
