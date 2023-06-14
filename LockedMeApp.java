@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class LockedMeApp {
-	public static final String location = "D://Saranya/test/";
+	public static final String location = "C://Saranya/test/";
 	public static Scanner sc = new Scanner(System.in);
 
 	public static void fileListAndCount() {
@@ -23,8 +23,14 @@ public class LockedMeApp {
 				File fileItem = new File(fileLocation);
 				return fileItem.isFile();
 			}).count();
-			if(filesCount> 0)displayFileList(fileList,filesCount); 
-			else  displayOutput("No Files in the current Directory");
+			Long foldersCount = fileList.stream().sorted().filter(x -> {
+				String fileLocation = location.concat(x);
+				File fileItem = new File(fileLocation);
+				return fileItem.isDirectory();
+			}).count();
+			displayFileList(fileList,filesCount,foldersCount); 
+			
+			
 			
 		}catch(NullPointerException ex) {
 			System.out.println("Invalid location path");
@@ -43,7 +49,9 @@ public class LockedMeApp {
 			fileName = br.readLine();
 			System.out.println("Enter the file extension");
 			fileExtension = br.readLine();
-			String fileNameWithExtension = fileName.toLowerCase() + "." + fileExtension.toLowerCase();
+			if(!fileName.isBlank()) {
+			String removeSpaces = fileExtension.isBlank() ? "txt" : fileExtension.trim().toLowerCase();
+			String fileNameWithExtension = fileName.trim().toLowerCase().replace(" ", "_") + "." +removeSpaces ;
 			String fileLocation = location.concat(fileNameWithExtension);
 
 			File fileObj = new File(fileLocation);
@@ -53,6 +61,9 @@ public class LockedMeApp {
 				
 				displayOutput("File " +fileLocation +" already Exists!!");
 				
+			}
+			}else {
+				displayOutput("Invalid fileName or file Extension");
 			}	
 			
 		} catch (IOException e) {
@@ -158,10 +169,11 @@ public class LockedMeApp {
 		System.out.println(("*").repeat(100)+"\n");
 	}
 	
-	public static void displayFileList(List<String> fileList,Long fileCount) {
+	public static void displayFileList(List<String> fileList,Long fileCount,Long foldersCount) {
 		System.out.println(("*").repeat(100)+"\n");
-		System.out.println("Total file count = " + fileCount);
-		System.out.println("Files in the current Directory\n");
+		System.out.println("Total files count = " + fileCount);
+		System.out.println("Total folders count = " + foldersCount);
+		System.out.println("Files and Folders in the current Directory\n");
 		fileList.stream().sorted().forEach(System.out::println);
 		System.out.println(("*").repeat(100)+"\n");
 	}
